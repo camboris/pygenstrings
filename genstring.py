@@ -191,13 +191,14 @@ def localize(path, excluded_paths):
     logging.info("Excluded paths: %s" % excluded_paths)
 
     languages = []
+    excluido = os.path.dirname(excluded_paths)
     for root, dirs, files in os.walk(path):
-        #print dirs
-        for name in dirs:
-            if name.endswith('.lproj'):
-                languages.append(os.path.join(root, name))
+        if not root.startswith(excluido):
+            for name in dirs:
+                if name.endswith('.lproj'):
+                    languages.append(os.path.join(root, name))
 
-    print "languages found", languages
+    #print "languages found", languages
 
     for language in languages:
         original = merged = language + os.path.sep + STRINGS_FILE
